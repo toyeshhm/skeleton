@@ -23,12 +23,17 @@
 	const datePicker = DatePickerRootContext.consume();
 	const viewProps = DatePickerViewContext.consume();
 
-	const [tableCellProps, componentProps] = $derived(
-		splitTableCellProps(props as unknown as TableCellProps) as unknown as [
+	const [tableCellProps, componentProps] = $derived.by(() => {
+		// `splitTableCellProps` drops `visibleRange`, which days outside the first visible month need
+		const { visibleRange, ...others } = props;
+		const [splitCellProps, componentProps] = splitTableCellProps(
+			others as unknown as TableCellProps,
+		) as unknown as [
 			Union<TableCellProps, DayTableCellProps>,
 			Omit<DatePickerTableCellProps, keyof Union<TableCellProps, DayTableCellProps>>,
-		],
-	);
+		];
+		return [{ ...splitCellProps, visibleRange }, componentProps] as const;
+	});
 	const { element, children, ...rest } = $derived(componentProps);
 
 	const refinedTableCellProps = $derived.by(() => {

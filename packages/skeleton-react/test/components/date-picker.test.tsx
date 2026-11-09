@@ -150,6 +150,16 @@ describe("DatePicker", () => {
 			await render(<DatePicker />);
 			await expect.element(page.getByTestId("table-cell")).toBeInTheDocument();
 		});
+
+		it("uses the visibleRange prop", async () => {
+			await render(<DatePicker />);
+			const tableCell = page.getByTestId("table-cell-visible-range");
+			await expect.element(tableCell).not.toHaveAttribute("aria-disabled");
+			await expect.element(tableCell).not.toHaveAttribute("visibleRange");
+			await expect
+				.element(page.getByTestId("table-cell-trigger-visible-range"))
+				.not.toHaveAttribute("data-disabled");
+		});
 	});
 
 	describe("TableCellTrigger", () => {

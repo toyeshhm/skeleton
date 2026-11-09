@@ -22,12 +22,15 @@ export default function TableCell(props: DatePickerTableCellProps) {
 	const datePicker = use(DatePickerRootContext);
 	const viewProps = use(DatePickerViewContext);
 
-	const [tableCellProps, componentProps] = splitTableCellProps(
-		props as unknown as TableCellProps,
+	// `splitTableCellProps` drops `visibleRange`, which days outside the first visible month need
+	const { visibleRange, ...others } = props;
+	const [splitCellProps, componentProps] = splitTableCellProps(
+		others as unknown as TableCellProps,
 	) as unknown as [
 		Union<TableCellProps, DayTableCellProps>,
 		Omit<DatePickerTableCellProps, keyof Union<TableCellProps, DayTableCellProps>>,
 	];
+	const tableCellProps = { ...splitCellProps, visibleRange };
 	const { element, children, ...rest } = componentProps;
 
 	function getTableCellProps(tableCellProps: TableCellProps) {

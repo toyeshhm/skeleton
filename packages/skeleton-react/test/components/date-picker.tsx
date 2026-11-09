@@ -34,6 +34,16 @@ export default function Test() {
 									>
 										<DatePicker.TableCellTrigger data-testid="table-cell-trigger" />
 									</DatePicker.TableCell>
+									<DatePicker.TableCell
+										value={parseDate("1970-02-15")}
+										visibleRange={{
+											start: parseDate("1970-02-01"),
+											end: parseDate("1970-02-28"),
+										}}
+										data-testid="table-cell-visible-range"
+									>
+										<DatePicker.TableCellTrigger data-testid="table-cell-trigger-visible-range" />
+									</DatePicker.TableCell>
 								</DatePicker.TableRow>
 							</DatePicker.TableBody>
 						</DatePicker.Table>
